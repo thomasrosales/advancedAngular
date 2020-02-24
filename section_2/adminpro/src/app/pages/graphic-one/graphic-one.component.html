@@ -5,8 +5,7 @@
                 <div>
                     <div>
                         <div style="display: block">
-                            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
-                        </canvas>
+                            <app-graphic-doughnut [data]="graficos.grafico1.data" [label]="graficos.grafico1.labels"></app-graphic-doughnut>
                         </div>
                     </div>
                 </div>
@@ -20,8 +19,35 @@
                 <div>
                     <div>
                         <div style="display: block">
-                            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
-                        </canvas>
+                            <app-graphic-doughnut [data]="graficos.grafico2.data" [label]="graficos.grafico2.labels"></app-graphic-doughnut>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <div>
+                        <div style="display: block">
+                            <app-graphic-doughnut [data]="graficos.grafico3.data" [label]="graficos.grafico3.labels"></app-graphic-doughnut>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <div>
+                        <div style="display: block">
+                            <app-graphic-doughnut [data]="graficos.grafico4.data" [label]="graficos.grafico4.labels"></app-graphic-doughnut>
                         </div>
                     </div>
                 </div>

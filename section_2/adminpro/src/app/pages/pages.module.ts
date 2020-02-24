@@ -10,6 +10,7 @@ import { PagesComponent } from './pages.component';
 import { SharedModule} from './../shared/shared.module';
 import { PAGES_ROUTES } from './pages-routing.module';
 import { AdderComponent } from '../components/adder/adder.component';
+import { GraphicDoughnutComponent } from '../components/graphic-doughnut/graphic-doughnut.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AdderComponent } from '../components/adder/adder.component';
         ProgressComponent,
         GraphicOneComponent,
         PagesComponent,
-        AdderComponent
+        AdderComponent,
+        GraphicDoughnutComponent
     ],
     imports: [
         PAGES_ROUTES,

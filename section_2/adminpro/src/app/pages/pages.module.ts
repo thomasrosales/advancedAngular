@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { ChartsModule } from 'ng2-charts';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -23,7 +23,8 @@ import { AdderComponent } from '../components/adder/adder.component';
     imports: [
         PAGES_ROUTES,
         SharedModule,
-        FormsModule
+        FormsModule,
+        ChartsModule
     ],
     exports: [
         DashboardComponent,

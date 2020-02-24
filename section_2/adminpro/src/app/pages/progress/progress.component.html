@@ -4,11 +4,11 @@
             <div class="card-body">
                 <h5 class="card-title">Card title</h5>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValuenoew]="progress" [style.width]="progress + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValuenoew]="progressGreen" [style.width]="progressGreen + '%'" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <br>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenoew]="progress" [style.width]="progress + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenoew]="progressBlue" [style.width]="progressBlue + '%'" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-adder [progress]="20" leyend="Azul"></app-adder>
+                <app-adder [progress]="20" leyend="Azul" (changeValue)="this.progressGreen = $event"></app-adder>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <app-adder [progress]="80" leyend="Verde"></app-adder>
+                <app-adder [progress]="80" leyend="Verde" (changeValue)="this.progressBlue = $event"></app-adder>
             </div>
         </div>
     </div>

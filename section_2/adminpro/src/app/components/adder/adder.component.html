@@ -1,0 +1,9 @@
+<h3>{{leyend}}</h3>
+
+<div class="input-group">
+    <input #inputAdder type="number" class="form-control" name="progress" [(ngModel)]="progress" min="1" max="100" (ngModelChange)="onChange($event)">
+    <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-outline-primary" type="button" (click)="add(5)"><i class="mdi mdi-plus" ></i></button>
+        <button class="btn btn-outline-primary" type="button" (click)="minus(-5)"><i class="mdi mdi-minus"></i></button>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 // MODULES
 import { PagesModule } from './pages/pages.module';
+import { FormsModule } from '@angular/forms'; // TEMP
 
 // RUTAS
 import { APP_ROUTES } from './app-routing.module';
@@ -11,6 +12,7 @@ import { APP_ROUTES } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register/register.component';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { RegisterComponent } from './login/register/register.component';
   imports: [
     BrowserModule,
     APP_ROUTES,
-    PagesModule
+    PagesModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

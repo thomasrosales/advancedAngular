@@ -6,6 +6,10 @@
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [attr.ariaValuenoew]="progress" [style.width]="progress + '%'" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
+                <br>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" [attr.ariaValuenoew]="progress" [style.width]="progress + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -16,7 +20,7 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <p>Text</p>
+                <app-adder [progress]="20" leyend="Azul"></app-adder>
             </div>
         </div>
     </div>
@@ -24,13 +28,7 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="progress" [(ngModel)]="progress">
-                    <div class="input-group-append" id="button-addon4">
-                        <button class="btn btn-outline-primary" type="button" (click)="add(5)"><i class="mdi mdi-plus" ></i></button>
-                        <button class="btn btn-outline-primary" type="button" (click)="minus(-5)"><i class="mdi mdi-minus"></i></button>
-                    </div>
-                </div>
+                <app-adder [progress]="80" leyend="Verde"></app-adder>
             </div>
         </div>
     </div>

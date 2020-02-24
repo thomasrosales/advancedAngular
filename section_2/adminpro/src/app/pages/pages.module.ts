@@ -9,6 +9,7 @@ import { PagesComponent } from './pages.component';
 
 import { SharedModule} from './../shared/shared.module';
 import { PAGES_ROUTES } from './pages-routing.module';
+import { AdderComponent } from '../components/adder/adder.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PAGES_ROUTES } from './pages-routing.module';
         DashboardComponent,
         ProgressComponent,
         GraphicOneComponent,
-        PagesComponent
+        PagesComponent,
+        AdderComponent
     ],
     imports: [
         PAGES_ROUTES,

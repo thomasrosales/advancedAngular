@@ -12,6 +12,8 @@ import { PAGES_ROUTES } from './pages-routing.module';
 import { AdderComponent } from '../components/adder/adder.component';
 import { GraphicDoughnutComponent } from '../components/graphic-doughnut/graphic-doughnut.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PromisesComponent } from './promises/promises.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         PagesComponent,
         AdderComponent,
         GraphicDoughnutComponent,
-        AccountSettingsComponent
+        AccountSettingsComponent,
+        PromisesComponent,
+        RxjsComponent
     ],
     imports: [
         PAGES_ROUTES,

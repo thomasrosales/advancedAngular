@@ -3,6 +3,9 @@ import { BreadcrumsComponent } from './breadcrums/breadcrums.component';
 import { HeaderComponent } from './header/header.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
     declarations: [
@@ -11,7 +14,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
         PagenotfoundComponent,
         SidebarComponent
     ],
-    imports: [],
+    imports: [
+        RouterModule,
+        CommonModule
+    ],
     exports: [
         BreadcrumsComponent,
         HeaderComponent,

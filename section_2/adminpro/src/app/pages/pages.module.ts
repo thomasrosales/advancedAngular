@@ -11,6 +11,7 @@ import { SharedModule} from './../shared/shared.module';
 import { PAGES_ROUTES } from './pages-routing.module';
 import { AdderComponent } from '../components/adder/adder.component';
 import { GraphicDoughnutComponent } from '../components/graphic-doughnut/graphic-doughnut.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { GraphicDoughnutComponent } from '../components/graphic-doughnut/graphic
         GraphicOneComponent,
         PagesComponent,
         AdderComponent,
-        GraphicDoughnutComponent
+        GraphicDoughnutComponent,
+        AccountSettingsComponent
     ],
     imports: [
         PAGES_ROUTES,

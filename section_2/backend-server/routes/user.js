@@ -2,8 +2,7 @@ var express = require('express');
 var app = express();
 var bcrypt = require('bcrypt');
 var User = require('../models/user');
-var jwt = require('jsonwebtoken');
-var SECRET_KEY = require('../config/config').SECRET_KEY;
+var middlewareAuthenticaion = require('../middlewares/authentication');
 
 /**
  * GET ALL USERS
@@ -27,9 +26,9 @@ app.get('/', (req, res, next) => {
 });
 
 /**
- * MIDDLEWARE
+ * MIDDLEWARE SE PASO A OTRO ARCHIVO
  */
-app.use('/', (req, res, next) => {
+/*app.use('/', (req, res, next) => {
 
     var token = req.query.token;
 
@@ -41,19 +40,15 @@ app.use('/', (req, res, next) => {
                 errors: err
             });
         }
-
         next(); //CONTINUA CON LA EJECUCION NORMAL DE LOS OTROS METODOS
-
     });
-
-
-});
+});*/
 
 /**
  * CREATE USER
  */
 
-app.post('/', (req, res) => {
+app.post('/', middlewareAuthenticaion.tokenVerification, (req, res) => {
 
     var body = req.body; // BODY-PARSER PACKAGE CAPTURA Y PARSEA LOS PARAMETROS ENVIADOS POR JSON
 
@@ -80,7 +75,8 @@ app.post('/', (req, res) => {
         res.status(201).json({
             status: true,
             description: '...',
-            user: persistentUser
+            user: persistentUser,
+            create_by: req.user
         }); // EVERYTHING OK
 
     });
@@ -89,7 +85,7 @@ app.post('/', (req, res) => {
 /**
  * UPDATE USER
  */
-app.put('/:id', (req, res) => {
+app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
 
     var id = req.params.id;
     var body = req.body; // PARAMETROS NUEVOS
@@ -129,7 +125,8 @@ app.put('/:id', (req, res) => {
             res.status(200).json({
                 status: true,
                 description: '...',
-                user: persistentUser
+                user: persistentUser,
+                update_by: req.user
             }); // EVERYTHING OK
         });
     });
@@ -138,7 +135,7 @@ app.put('/:id', (req, res) => {
 /**
  * DELETE USER
  */
-app.delete('/:id', (req, res) => {
+app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
 
     var id = req.params.id;
 
@@ -161,7 +158,8 @@ app.delete('/:id', (req, res) => {
         res.status(200).json({
             status: true,
             description: '...',
-            user: deletedUser
+            user: deletedUser,
+            delete_by: req.user
         }); // EVERYTHING OK
     });
 });

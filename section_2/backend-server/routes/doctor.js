@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var Hospital = require('../models/hospital');
+var Doctor = require('../models/doctor');
 var middlewareAuthenticaion = require('../middlewares/authentication');
 
 /**
@@ -8,42 +8,43 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  */
 app.get('/', (req, res, next) => {
 
-    Hospital.find({}).exec((err, Hospitals) => {
+    Doctor.find({}).exec((err, doctors) => {
         if (err) {
             return res.status(500).json({
                 status: false,
-                description: 'Error loading hospitals.',
+                description: 'Error loading doctors.',
                 errors: err
             });
         }
         res.status(200).json({
             status: true,
             description: '...',
-            hospital: Hospitals
+            doctors: doctors
         }); // EVERYTHING OK
     }); //GET   
 });
 
 /**
- * CREATE HOSPITAL
+ * CREATE DOCTOR
  */
 
 app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
 
     var body = req.body;
 
-    var hospital = new Hospital({
+    var doctor = new Doctor({
         nombre: body.nombre,
         image: body.image,
-        user: body.user
+        user: body.user,
+        hospital: body.hospital
     });
 
-    hospital.save((err, persistentHospital) => {
+    doctor.save((err, persistentDoctor) => {
 
         if (err) {
             return res.status(400).json({
                 status: false,
-                description: 'Error creating hospital.',
+                description: 'Error creating doctor.',
                 errors: err
             });
         }
@@ -51,7 +52,7 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
         res.status(201).json({
             status: true,
             description: '...',
-            hospital: persistentHospital,
+            doctor: persistentDoctor,
             create_by: req.user
         }); // EVERYTHING OK
 
@@ -59,37 +60,38 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
 });
 
 /**
- * UPDATE HOSPITAL BY ID
+ * UPDATE DOCTOR BY ID
  */
 app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
     var id = req.params.id;
     var body = req.body;
 
-    Hospital.findById(id, (err, persistentHospital) => {
+    Doctor.findById(id, (err, persistentDoctor) => {
         if (err) {
             return res.status(500).json({
                 status: false,
-                description: 'Error getting hospital',
+                description: 'Error getting doctor',
                 errors: err
             });
         }
 
-        if (!persistentHospital) {
+        if (!persistentDoctor) {
             return res.status(400).json({
                 status: false,
-                description: 'Hospital with id: ' + id + ' does not exist.',
+                description: 'Doctor with id: ' + id + ' does not exist.',
                 errors: { messages: '' }
             });
         }
 
-        persistentHospital.nombre = body.nombre;
-        persistentHospital.user = body.user;
+        persistentDoctor.nombre = body.nombre;
+        persistentDoctor.user = body.user;
+        persistentDoctor.hospital = body.hospital;
 
-        persistentHospital.save((err, updatedHospital) => {
+        persistentDoctor.save((err, updatedDoctor) => {
             if (err) {
                 return res.status(500).json({
                     status: false,
-                    description: 'Error updating hospital',
+                    description: 'Error updating doctor',
                     errors: err
                 });
             }
@@ -97,7 +99,7 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
             res.status(201).json({
                 status: true,
                 description: '...',
-                hospital: updatedHospital,
+                doctor: updatedDoctor,
                 updated_by: req.user
             }); // EVERYTHING OK
         });
@@ -105,24 +107,24 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
 });
 
 /**
- * DELETE HOSPITAL BY ID
+ * DELETE Docotr BY ID
  */
 app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
     var id = req.params.id;
 
-    Hospital.findByIdAndRemove(id, (err, deletedHospital) => {
+    Doctor.findByIdAndRemove(id, (err, deletedDoctor) => {
         if (err) {
             return res.status(500).json({
                 status: false,
-                description: 'Error deleting hospital',
+                description: 'Error deleting doctor',
                 errors: err
             });
         }
 
-        if (!deletedHospital) {
+        if (!deletedDoctor) {
             return res.status(500).json({
                 status: false,
-                description: 'Hospital: ' + id + ' does not exist.',
+                description: 'Doctor: ' + id + ' does not exist.',
                 errors: { message: '...' }
             });
         }
@@ -130,7 +132,7 @@ app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) =
         res.status(201).json({
             status: true,
             description: '...',
-            hospital: deletedHospital,
+            doctor: deletedDoctor,
             deleted_by: req.user
         }); // EVERYTHING OK
 

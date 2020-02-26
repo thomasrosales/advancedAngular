@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bcrypt = require('bcrypt');
 var User = require('../models/user');
+var jwt = require('jsonwebtoken');
 
 /**
  * LOGIN
@@ -36,13 +37,16 @@ app.post('/', (req, res) => {
         }
 
         //TOKEN
+        persistentUser.password = "********";
+        var token = jwt.sign({ user: persistentUser }, '@SECRET-KEY', { expiresIn: 3600 });
 
 
         res.status(200).json({
             status: true,
             description: '...',
             user: persistentUser,
-            id: persistentUser._id
+            id: persistentUser._id,
+            token: token
         }); // EVERYTHING OK
     });
 });

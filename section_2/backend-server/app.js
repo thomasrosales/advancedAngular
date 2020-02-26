@@ -2,6 +2,8 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
+var appRoutes = require('./routes/app');
+var userRoutes = require('./routes/user');
 
 // INIT
 
@@ -9,23 +11,25 @@ var app = express(); // CREATE SERVIDOR
 
 
 // BBDD
-mongoose.connect('mongodb://localhost:27017/HospitalDB', (err, res) => {
-    if (err) {
-        throw err;
-    }
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
-    console.log('BD: \x1b[36m%s\x1b[0m', 'online');
-});
-
+mongoose.connect('mongodb://localhost:27017/HospitalDB');
 
 // ROUTES
 
-app.get('/', (req, res, next) => {
+/*app.get('/', (req, res, next) => {
     res.status(200).json({
         status: true,
         description: 'ok'
     }); // EVERYTHING OK
-});
+});*/
+
+//MIDDLEWARE
+app.use('/user', userRoutes); //SIEMPRE ARRIBA DE /
+app.use('/', appRoutes);
 
 // LISTENERS
 

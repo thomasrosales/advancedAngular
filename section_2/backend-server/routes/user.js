@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var bcrypt = require('bcrypt');
 var User = require('../models/user');
+var jwt = require('jsonwebtoken');
+var SECRET_KEY = require('../config/config').SECRET_KEY;
 
 /**
  * GET ALL USERS
@@ -24,6 +26,28 @@ app.get('/', (req, res, next) => {
     }); //GET   
 });
 
+/**
+ * MIDDLEWARE
+ */
+app.use('/', (req, res, next) => {
+
+    var token = req.query.token;
+
+    jwt.verify(token, SECRET_KEY, (err, decode) => {
+        if (err) {
+            return res.status(401).json({
+                status: false,
+                description: 'Incorrect Token',
+                errors: err
+            });
+        }
+
+        next(); //CONTINUA CON LA EJECUCION NORMAL DE LOS OTROS METODOS
+
+    });
+
+
+});
 
 /**
  * CREATE USER

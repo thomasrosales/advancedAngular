@@ -3,6 +3,7 @@ var app = express();
 var bcrypt = require('bcrypt');
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
+var SECRET_KEY = require('../config/config').SECRET_KEY;
 
 /**
  * LOGIN
@@ -38,7 +39,7 @@ app.post('/', (req, res) => {
 
         //TOKEN
         persistentUser.password = "********";
-        var token = jwt.sign({ user: persistentUser }, '@SECRET-KEY', { expiresIn: 3600 });
+        var token = jwt.sign({ user: persistentUser }, SECRET_KEY, { expiresIn: 3600 });
 
 
         res.status(200).json({

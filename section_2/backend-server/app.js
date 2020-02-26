@@ -4,10 +4,19 @@ var express = require('express');
 var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var userRoutes = require('./routes/user');
+var bodyParser = require('body-parser');
 
 // INIT
 
 var app = express(); // CREATE SERVIDOR
+
+// INIT BODY PARSER
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 
 // BBDD

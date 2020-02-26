@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var userRoutes = require('./routes/user');
 var loginRoutes = require('./routes/login');
+var hospitalRoutes = require('./routes/hospital');
 var bodyParser = require('body-parser');
 
 // INIT
@@ -38,6 +39,7 @@ mongoose.connect('mongodb://localhost:27017/HospitalDB');
 });*/
 
 //MIDDLEWARE
+app.use('/hospital', hospitalRoutes); //SIEMPRE ARRIBA DE /
 app.use('/login', loginRoutes); //SIEMPRE ARRIBA DE /
 app.use('/user', userRoutes); //SIEMPRE ARRIBA DE /
 app.use('/', appRoutes);

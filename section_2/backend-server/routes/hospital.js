@@ -8,20 +8,31 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  */
 app.get('/', (req, res, next) => {
 
-    Hospital.find({}).exec((err, Hospitals) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error loading hospitals.',
-                errors: err
+    var offset = req.query.offset || 0;
+    offset = Number(offset);
+
+    Hospital.find({})
+        .skip(offset)
+        .limit(5)
+        .populate('user', 'nombre email')
+        .exec((err, Hospitals) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error loading hospitals.',
+                    errors: err
+                });
+            }
+
+            Hospital.count({}, (err, quantity) => {
+                res.status(200).json({
+                    status: true,
+                    description: '...',
+                    hospital: Hospitals,
+                    total: quantity
+                }); // EVERYTHING OK
             });
-        }
-        res.status(200).json({
-            status: true,
-            description: '...',
-            hospital: Hospitals
-        }); // EVERYTHING OK
-    }); //GET   
+        }); //GET   
 });
 
 /**

@@ -7,7 +7,7 @@ var doctorSchema = new Schema({
     nombre: { type: String, required: [true, 'El nombre es requerido'] },
     image: { type: String, required: false },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    hospital: { type: Schema.Types.ObjectId, ref: 'User', required: [true, 'El hospital es requerido'] }
+    hospital: { type: Schema.Types.ObjectId, ref: 'Hospital', required: [true, 'El hospital es requerido'] }
 });
 
 doctorSchema.plugin(uniqueValidator, {

@@ -9,20 +9,32 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  */
 app.get('/', (req, res, next) => {
 
-    User.find({}, 'nombre email image rol').exec((err, Users) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error loading users.',
-                errors: err
+    var offset = req.query.offset || 0;
+    offset = Number(offset);
+
+    User.find({}, 'nombre email image rol')
+        .skip(offset)
+        .limit(5)
+        .exec((err, Users) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error loading users.',
+                    errors: err
+                });
+            }
+
+            User.count({}, (err, quantity) => {
+                res.status(200).json({
+                    status: true,
+                    description: '...',
+                    users: Users,
+                    total: quantity
+                }); // EVERYTHING OK
             });
-        }
-        res.status(200).json({
-            status: true,
-            description: '...',
-            users: Users
-        }); // EVERYTHING OK
-    }); //GET   
+
+
+        }); //GET   
 });
 
 /**

@@ -6,7 +6,7 @@ var Doctor = require('../models/doctor');
 var middlewareAuthenticaion = require('../middlewares/authentication');
 
 /**
- * GET ALL USERS
+ * GET ALL BY FILTER
  */
 app.get('/all/:filter', (req, res, next) => {
 
@@ -32,6 +32,60 @@ app.get('/all/:filter', (req, res, next) => {
              result: response
          }); // EVERYTHING OK 
      });*/
+
+});
+
+/**
+ * GET ALL BY FILTER
+ */
+app.get('/collection/:table/:filter', (req, res, next) => {
+    var filter = req.params.filter;
+    var table = req.params.table;
+    var regex = new RegExp(filter, 'i');
+
+    if (!table) {
+        return res.status(400).json({
+            status: false,
+            error: { message: 'Miss Parameter Table' }
+        });
+    }
+
+    if (table.toLowerCase() === 'doctor') {
+        findDoctor(filter, regex).then(response => {
+            res.status(200).json({
+                status: true,
+                description: '...',
+                doctors: response
+            }); // EVERYTHING OK 
+        });
+    } else {
+        if (table.toLowerCase() === 'hospital') {
+            findHospitals(filter, regex).then(response => {
+                res.status(200).json({
+                    status: true,
+                    description: '...',
+                    hospitals: response
+                }); // EVERYTHING OK 
+            });
+        } else {
+            if (table.toLowerCase() === 'user') {
+                findUser(filter, regex).then(response => {
+                    res.status(200).json({
+                        status: true,
+                        description: '...',
+                        users: response
+                    }); // EVERYTHING OK 
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    error: { message: 'Parameter Dont Match With Any Collection' }
+                });
+            }
+        }
+    }
+
+
 
 });
 

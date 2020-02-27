@@ -79,11 +79,55 @@ app.post('/google', async(req, res, next) => {
     });
 
 
-    res.status(200).json({
-        status: true,
-        description: 'OK',
-        googleUser: googleUser
-    }); // EVERYTHING OK
+    User.findOne({ email: googleUser.email }, (err, persistentUser) => {
+        if (err) {
+            return res.status(400).json({
+                status: false,
+                description: 'Error Getting User', //SACAR
+                errors: err
+            });
+        }
+
+        if (persistentUser) {
+            if (persistentUser.google === false) {
+                return res.status(400).json({
+                    status: false,
+                    description: 'Incorrect User', //SACAR
+                    errors: {}
+                });
+            }
+
+            var token = jwt.sign({ user: persistentUser }, SECRET_KEY, { expiresIn: 3600 });
+            res.status(200).json({
+                status: true,
+                description: '...',
+                user: persistentUser,
+                id: persistentUser._id,
+                token: token
+            }); // EVERYTHING OK
+
+        } else {
+            // CREAR USUARIO SI NO EXISTE 
+            var newUser = new User();
+            console.log(googleUser);
+            newUser.nombre = googleUser.name;
+            newUser.email = googleUser.email;
+            newUser.image = googleUser.image;
+            newUser.google = true;
+            newUser.password = '1234';
+
+            newUser.save((err, persistentNewUser) => {
+                var token = jwt.sign({ user: persistentNewUser }, SECRET_KEY, { expiresIn: 3600 });
+                res.status(200).json({
+                    status: true,
+                    description: '...',
+                    user: persistentNewUser,
+                    id: persistentNewUser._id,
+                    token: token
+                }); // EVERYTHING OK
+            });
+        }
+    });
 
 });
 

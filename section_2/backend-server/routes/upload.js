@@ -5,6 +5,7 @@ var User = require('../models/user');
 var Doctor = require('../models/doctor');
 var middlewareAuthenticaion = require('../middlewares/authentication');
 var fileUpload = require('express-fileupload');
+var fs = require('fs'); //FILE SYSTEM
 
 // default options
 app.use(fileUpload());
@@ -71,16 +72,128 @@ app.put('/:type/:id', (req, res, next) => {
 
         //res.send('File uploaded!');
 
-        res.status(200).json({
+        /*res.status(200).json({
             status: true,
             description: '...',
             result: ''
-        }); // EVERYTHING OK
+        });*/ // EVERYTHING OK
+        updateImageToCollection(fileType, userId, fileName, res);
     });
 
 
 
 
+
 });
+
+function updateImageToCollection(collection, id, fileName, res) {
+    if (collection === 'users') {
+        User.findById(id, (err, persistentUser) => {
+            if (err || !persistentUser) {
+                return res.status(400).json({
+                    status: false,
+                    description: { message: 'Error Uploading User.' },
+                    error: err
+                });
+            }
+
+            var oldPath = './uploads/users/' + persistentUser.image;
+
+            console.log(oldPath);
+
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+            }
+
+            persistentUser.image = fileName;
+            persistentUser.save((errUser, updatedUser) => {
+                if (errUser) {
+                    return res.status(400).json({
+                        status: false,
+                        description: { message: 'Error Uploading User.' },
+                        error: errUser
+                    });
+                }
+                return res.status(200).json({
+                    status: true,
+                    description: 'Image Updated',
+                    user: updatedUser
+                });
+            });
+        });
+    }
+
+    if (collection === 'doctors') {
+        Doctor.findById(id, (err, persistentDoctor) => {
+            if (err || !persistentDoctor) {
+                return res.status(400).json({
+                    status: false,
+                    description: { message: 'Error Uploading Doctor.' },
+                    error: err
+                });
+            }
+
+            var oldPath = './uploads/doctors/' + persistentDoctor.image;
+
+            console.log(oldPath);
+
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+            }
+
+            persistentDoctor.image = fileName;
+            persistentDoctor.save((errDoctor, updatedDoctor) => {
+                if (errDoctor) {
+                    return res.status(400).json({
+                        status: false,
+                        description: { message: 'Error Uploading Doctor.' },
+                        error: errDoctor
+                    });
+                }
+                return res.status(200).json({
+                    status: true,
+                    description: 'Image Updated',
+                    doctor: updatedDoctor
+                });
+            });
+        });
+    }
+
+    if (collection === 'hospitals') {
+        Hospital.findById(id, (err, persistentHospital) => {
+            if (err || !persistentHospital) {
+                return res.status(400).json({
+                    status: false,
+                    description: { message: 'Error Uploading Hospital.' },
+                    error: err
+                });
+            }
+
+            var oldPath = './uploads/hospitals/' + persistentHospital.image;
+
+            console.log(oldPath);
+
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+            }
+
+            persistentHospital.image = fileName;
+            persistentHospital.save((errHospital, updatedHospital) => {
+                if (errHospital) {
+                    return res.status(400).json({
+                        status: false,
+                        description: { message: 'Error Uploading Hospital.' },
+                        error: errHospital
+                    });
+                }
+                return res.status(200).json({
+                    status: true,
+                    description: 'Image Updated',
+                    doctor: updatedHospital
+                });
+            });
+        });
+    }
+}
 
 module.exports = app; //EXPORTA FUERA DE ESTE ARCHIVO

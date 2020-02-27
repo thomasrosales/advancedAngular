@@ -2,3 +2,4 @@
 *.code-workspace
 section_2/adminpro/.vscode/
 section_2/backend-server/.vscode/
+section_2/adminpro/node_modules

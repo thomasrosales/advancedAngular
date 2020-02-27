@@ -5,6 +5,11 @@ var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var userRoutes = require('./routes/user');
 var loginRoutes = require('./routes/login');
+var hospitalRoutes = require('./routes/hospital');
+var doctorRoutes = require('./routes/doctor');
+var findRoutes = require('./routes/finder');
+var uploadRoutes = require('./routes/upload');
+var imageRoutes = require('./routes/images');
 var bodyParser = require('body-parser');
 
 // INIT
@@ -38,6 +43,11 @@ mongoose.connect('mongodb://localhost:27017/HospitalDB');
 });*/
 
 //MIDDLEWARE
+app.use('/image', imageRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/find', findRoutes);
+app.use('/doctor', doctorRoutes);
+app.use('/hospital', hospitalRoutes); //SIEMPRE ARRIBA DE /
 app.use('/login', loginRoutes); //SIEMPRE ARRIBA DE /
 app.use('/user', userRoutes); //SIEMPRE ARRIBA DE /
 app.use('/', appRoutes);

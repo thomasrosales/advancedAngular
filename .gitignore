@@ -1,3 +1,4 @@
 .vscode/*
 *.code-workspace
-*.vscode/*
+section_2/adminpro/.vscode/
+section_2/backend-server/.vscode/

@@ -9,6 +9,7 @@ var hospitalRoutes = require('./routes/hospital');
 var doctorRoutes = require('./routes/doctor');
 var findRoutes = require('./routes/finder');
 var uploadRoutes = require('./routes/upload');
+var imageRoutes = require('./routes/images');
 var bodyParser = require('body-parser');
 
 // INIT
@@ -42,6 +43,7 @@ mongoose.connect('mongodb://localhost:27017/HospitalDB');
 });*/
 
 //MIDDLEWARE
+app.use('/image', imageRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/find', findRoutes);
 app.use('/doctor', doctorRoutes);

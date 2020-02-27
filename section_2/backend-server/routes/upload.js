@@ -10,9 +10,7 @@ var fs = require('fs'); //FILE SYSTEM
 // default options
 app.use(fileUpload());
 
-/**
- * GET ALL BY FILTER/collection/:table/:filter
- */
+
 app.put('/:type/:id', (req, res, next) => {
 
     var fileType = req.params.type;
@@ -79,12 +77,8 @@ app.put('/:type/:id', (req, res, next) => {
         });*/ // EVERYTHING OK
         updateImageToCollection(fileType, userId, fileName, res);
     });
-
-
-
-
-
 });
+
 
 function updateImageToCollection(collection, id, fileName, res) {
     if (collection === 'users') {

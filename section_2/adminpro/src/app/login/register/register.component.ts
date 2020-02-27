@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../models/user.models';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BASE_URL } from '../../config/config';
+import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+
+
 
 declare function init_plugins();
 
@@ -11,8 +21,13 @@ declare function init_plugins();
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
 
-  constructor() { }
+  constructor(private userSerive: UserService, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     init_plugins();
@@ -34,12 +49,40 @@ export class RegisterComponent implements OnInit {
       console.log("Debe aceptar condiciones");
       return;
     }
-    console.log(this.registerForm.value);
-    console.log(this.registerForm.valid);
+
+    let user = new User(
+      this.registerForm.value.firstName,
+      this.registerForm.value.email,
+      this.registerForm.value.password
+    );
+    this.userCreate(user).subscribe((response: User) => {
+      Swal.fire({
+        title: 'Welcome!',
+        text: `Usuario creado: ${response.email}`,
+        icon: 'success',
+        confirmButtonText: 'Cool'
+      }).then((result) => {
+        if(result.value){
+            this.router.navigate(['/login']);
+        }
+      });
+    }, (error) => {
+      console.error(error);
+      Swal.fire({
+        title: ':(',
+        text: `${error.error.errors.message}`,
+        icon: 'error',
+        confirmButtonText: 'Bad'
+      });
+
+    });
+
+    // console.log(this.registerForm.value);
+    // console.log(this.registerForm.valid);
   }
 
-  equalsInput(field: string, fieldComparator: string){
-    return (group: FormGroup)=>{
+  equalsInput(field: string, fieldComparator: string) {
+    return (group: FormGroup) => {
 
       let pass1 = group.controls[field].value;
       let pass2 = group.controls[fieldComparator].value;
@@ -50,8 +93,18 @@ export class RegisterComponent implements OnInit {
   
       return {
         equalsInput: true
-      }
+      };
     };
+  }
+
+  userCreate(user: User){
+    const url = `${BASE_URL}/user`;
+    return this.http.post(url, user, this.httpOptions)
+      .pipe(
+        map((response: any) => {
+          return response.user;
+        })
+      );
   }
 
 }

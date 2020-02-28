@@ -37,8 +37,6 @@ export class LoginComponent implements OnInit {
     }
 
     ingresar(loginForm: NgForm) {
-        console.log(loginForm);
-
         if (loginForm.invalid) {
             return;
         }
@@ -70,7 +68,12 @@ export class LoginComponent implements OnInit {
         this.auth2.attachClickHandler(element, {}, googleUser => {
             //let profile = googleUser.getBasicProfile();
             let token = googleUser.getAuthResponse().id_token;
-            console.log(token);
+            //console.log(token);
+            this.userService.loginGoogle(token).subscribe(response => {
+                //console.log(response);
+                //this.router.navigate(['/dashboard']);
+                window.location.href = '#/dashboard';
+            });
         });
     }
 }

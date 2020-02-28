@@ -12,11 +12,9 @@ const client = new OAuth2Client(GOOGLE_CLIENT_ID);
  * LOGIN
  */
 app.post('/', (req, res) => {
-
     var body = req.body;
 
     User.findOne({ email: body.email }, (err, persistentUser) => {
-
         if (err) {
             return res.status(500).json({
                 status: false,
@@ -32,7 +30,9 @@ app.post('/', (req, res) => {
                 errors: {}
             });
         }
-        if (!body.password || !bcrypt.compareSync(body.password, persistentUser.password)) {
+        if (!body.password ||
+            !bcrypt.compareSync(body.password, persistentUser.password)
+        ) {
             return res.status(400).json({
                 status: false,
                 description: 'User with password: ' + body.password + ' is wrong.', //SACAR
@@ -41,9 +41,10 @@ app.post('/', (req, res) => {
         }
 
         //TOKEN
-        persistentUser.password = "********";
-        var token = jwt.sign({ user: persistentUser }, SECRET_KEY, { expiresIn: 3600 });
-
+        persistentUser.password = '********';
+        var token = jwt.sign({ user: persistentUser }, SECRET_KEY, {
+            expiresIn: 3600
+        });
 
         res.status(200).json({
             status: true,
@@ -59,7 +60,6 @@ app.post('/', (req, res) => {
  * GOOGLE AUTHENTICATION
  */
 app.post('/google', async(req, res, next) => {
-
     var token = req.body.token;
 
     if (!token) {
@@ -78,7 +78,6 @@ app.post('/google', async(req, res, next) => {
         });
     });
 
-
     User.findOne({ email: googleUser.email }, (err, persistentUser) => {
         if (err) {
             return res.status(400).json({
@@ -89,15 +88,9 @@ app.post('/google', async(req, res, next) => {
         }
 
         if (persistentUser) {
-            if (persistentUser.google === false) {
-                return res.status(400).json({
-                    status: false,
-                    description: 'Incorrect User', //SACAR
-                    errors: {}
-                });
-            }
-
-            var token = jwt.sign({ user: persistentUser }, SECRET_KEY, { expiresIn: 3600 });
+            var token = jwt.sign({ user: persistentUser }, SECRET_KEY, {
+                expiresIn: 3600
+            });
             res.status(200).json({
                 status: true,
                 description: '...',
@@ -105,9 +98,8 @@ app.post('/google', async(req, res, next) => {
                 id: persistentUser._id,
                 token: token
             }); // EVERYTHING OK
-
         } else {
-            // CREAR USUARIO SI NO EXISTE 
+            // CREAR USUARIO SI NO EXISTE
             var newUser = new User();
             console.log(googleUser);
             newUser.nombre = googleUser.name;
@@ -117,7 +109,9 @@ app.post('/google', async(req, res, next) => {
             newUser.password = '1234';
 
             newUser.save((err, persistentNewUser) => {
-                var token = jwt.sign({ user: persistentNewUser }, SECRET_KEY, { expiresIn: 3600 });
+                var token = jwt.sign({ user: persistentNewUser }, SECRET_KEY, {
+                    expiresIn: 3600
+                });
                 res.status(200).json({
                     status: true,
                     description: '...',
@@ -128,15 +122,14 @@ app.post('/google', async(req, res, next) => {
             });
         }
     });
-
 });
 
 async function verify(token) {
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
-        // Or, if multiple clients access the backend:
-        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        audience: GOOGLE_CLIENT_ID // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });
     const payload = ticket.getPayload();
     //const userid = payload['sub'];
@@ -148,8 +141,7 @@ async function verify(token) {
         email: payload.email,
         image: payload.picture,
         google: true
-    }
+    };
 }
-
 
 module.exports = app;

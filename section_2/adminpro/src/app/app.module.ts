@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 
 // MODULES
 import { PagesModule } from './pages/pages.module';
-import { FormsModule } from '@angular/forms'; // TEMP
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // TEMP
 import { ServicesModule } from './services/services.module';
-
 
 // RUTAS
 import { APP_ROUTES } from './app-routing.module';
@@ -29,7 +28,8 @@ import { RegisterComponent } from './login/register/register.component';
     APP_ROUTES,
     PagesModule,
     FormsModule,
-    ServicesModule
+    ReactiveFormsModule,
+    ServicesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

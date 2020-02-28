@@ -60,7 +60,7 @@ app.get('/', (req, res, next) => {
  * CREATE USER
  */
 
-app.post('/', middlewareAuthenticaion.tokenVerification, (req, res) => {
+app.post('/', (req, res) => {
 
     var body = req.body; // BODY-PARSER PACKAGE CAPTURA Y PARSEA LOS PARAMETROS ENVIADOS POR JSON
 

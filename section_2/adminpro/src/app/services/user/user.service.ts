@@ -29,6 +29,14 @@ export class UserService {
 
   login(user: User, rememberMe: boolean){
     const url = `${BASE_URL}/login`;
-    return this.http.post(url, user);
+    return this.http.post(url, user).pipe(
+      map((response: any) => {
+        localStorage.setItem('id', response.id);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('rememberMe', JSON.stringify(rememberMe));
+        return true;
+      })
+    );
   }
 }

@@ -21,6 +21,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     init_plugins();
+    if(localStorage.getItem('rememberMe') && localStorage.getItem('rememberMe') === 'true'){
+      this.email = JSON.parse(localStorage.getItem('user'))['email'];
+      this.rememberMe = true;
+    }
   }
 
   ingresar(loginForm: NgForm){
@@ -37,11 +41,10 @@ export class LoginComponent implements OnInit {
     );
     this.userService.login(user, this.rememberMe)
       .subscribe((response) => {
-        console.log(response);
+        this.router.navigate(['/dashboard']);
       }, (error) => {
         console.log(error);
       });
-    //this.router.navigate(['/dashboard']);
   }
 
 }

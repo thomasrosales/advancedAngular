@@ -38,12 +38,12 @@
                 <img [src]="user.image | imagen" width="100%" />
                 <br />
                 <br />
-                <input type="file" />
+                <input type="file" name="image" (change)="fileProgress($event)" />
 
                 <br />
                 <br />
 
-                <button type="button" class="btn-block btn-success waves-effect waves-light m-r-10">
+                <button type="button" class="btn-block btn-success waves-effect waves-light m-r-10" (click)="uploadImage()">
                     <i class="fa fa-save"></i>
                     Update
                 </button>

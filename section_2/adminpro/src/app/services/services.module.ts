@@ -4,7 +4,8 @@ import {
     SettingsService,
     SidebarService,
     SharedService,
-    UserService
+    UserService,
+    UploadFileService
 } from './settings.index';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
@@ -17,7 +18,8 @@ import { LoginGuard } from './guards/login.guard';
         SidebarService,
         SharedService,
         UserService,
-        LoginGuard
+        LoginGuard,
+        UploadFileService
     ]
 })
 export class ServicesModule {}

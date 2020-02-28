@@ -9,6 +9,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuard } from '../services/guards/login.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 const pagesRoutes: Routes = [
     {
@@ -35,6 +36,11 @@ const pagesRoutes: Routes = [
                 path: 'settings',
                 component: AccountSettingsComponent,
                 data: { title: 'Settings' }
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent,
+                data: { title: 'Profile' }
             },
             {
                 path: 'promise',

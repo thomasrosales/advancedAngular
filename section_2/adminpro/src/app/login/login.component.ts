@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../services/user/user.service';
 import { User } from '../models/user.models';
 import { CLIENT_KEY } from '../config/config';
+import { Router } from '@angular/router';
 
 declare function init_plugins();
 declare const gapi: any;
@@ -41,11 +41,11 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        let user = new User(null, this.email, this.password);
+        const user = new User(null, this.email, this.password);
         this.userService
             .login(user, this.rememberMe)
             .subscribe((response: any) => {
-                this.router.navigateByUrl('dashboard');
+                this.router.navigate(['/dashboard']);
             });
     }
 
@@ -65,10 +65,7 @@ export class LoginComponent implements OnInit {
         this.auth2.attachClickHandler(element, {}, googleUser => {
             //let profile = googleUser.getBasicProfile();
             let token = googleUser.getAuthResponse().id_token;
-            //console.log(token);
             this.userService.loginGoogle(token).subscribe(response => {
-                //console.log(response);
-                //this.router.navigate(['/dashboard']);
                 window.location.href = '#/dashboard';
             });
         });

@@ -7,7 +7,8 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li class="user-profile">
-                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="../assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs </span></a>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img [src]="user.image | imagen" alt="user" /><span class="hide-menu">Steave Jobs
+                        </span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="javascript:void()">My Profile </a></li>
                         <li><a href="javascript:void()">My Balance</a></li>
@@ -17,19 +18,14 @@
                             >
                         </li>
                         <li>
-                            <a class="pointer" (click)="userService.logout()"
-                                >Logout</a
-                            >
+                            <a class="pointer" (click)="logout()">Logout</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap">PERSONAL</li>
                 <li *ngFor="let item of sidebarServide.menu">
-                    <a
-                        class="has-arrow waves-effect waves-dark"
-                        aria-expanded="false"
-                        ><i [class]="item.icon"></i
+                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="item.icon"></i
                         ><span class="hide-menu"
                             >{{ item.title
                             }}<span

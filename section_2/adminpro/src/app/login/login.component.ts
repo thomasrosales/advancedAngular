@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../services/user/user.service';
@@ -42,14 +42,11 @@ export class LoginComponent implements OnInit {
         }
 
         let user = new User(null, this.email, this.password);
-        this.userService.login(user, this.rememberMe).subscribe(
-            response => {
-                this.router.navigate(['/dashboard']);
-            },
-            error => {
-                console.log(error);
-            }
-        );
+        this.userService
+            .login(user, this.rememberMe)
+            .subscribe((response: any) => {
+                this.router.navigateByUrl('dashboard');
+            });
     }
 
     googleInit() {

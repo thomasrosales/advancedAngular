@@ -3,12 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../models/user.models';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { BASE_URL } from '../../config/config';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-
 
 
 declare function init_plugins();
@@ -21,13 +16,8 @@ declare function init_plugins();
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-  };
 
-  constructor(private userSerive: UserService, private http: HttpClient, private router: Router) { }
+  constructor(private userSerive: UserService, private router: Router) { }
 
   ngOnInit(): void {
     init_plugins();
@@ -46,7 +36,7 @@ export class RegisterComponent implements OnInit {
     }
 
     if(!this.registerForm.value.conditions){
-      console.log("Debe aceptar condiciones");
+      console.log('Debe aceptar condiciones');
       return;
     }
 
@@ -55,14 +45,14 @@ export class RegisterComponent implements OnInit {
       this.registerForm.value.email,
       this.registerForm.value.password
     );
-    this.userCreate(user).subscribe((response: User) => {
+    this.userSerive.userCreate(user).subscribe((response: User) => {
       Swal.fire({
         title: 'Welcome!',
         text: `Usuario creado: ${response.email}`,
         icon: 'success',
         confirmButtonText: 'Cool'
       }).then((result) => {
-        if(result.value){
+        if (result.value) {
             this.router.navigate(['/login']);
         }
       });
@@ -90,21 +80,9 @@ export class RegisterComponent implements OnInit {
       if(pass1 === pass2){
         return null;
       }
-  
       return {
         equalsInput: true
       };
     };
   }
-
-  userCreate(user: User){
-    const url = `${BASE_URL}/user`;
-    return this.http.post(url, user, this.httpOptions)
-      .pipe(
-        map((response: any) => {
-          return response.user;
-        })
-      );
-  }
-
 }

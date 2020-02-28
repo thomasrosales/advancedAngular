@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { BASE_URL } from '../../config/config';
 import { User } from '../../models/user.models';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn: 'root'
@@ -49,6 +50,7 @@ export class UserService {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('user', JSON.stringify(response.user));
                 localStorage.setItem('rememberMe', JSON.stringify(rememberMe));
+                this.loadLocalStorage();
                 return true;
             })
         );
@@ -57,7 +59,13 @@ export class UserService {
     //http://localhost:3000/login/google
     loginGoogle(token: string) {
         const url = `${BASE_URL}/login/google`;
-        return this.http.post(url, { token });
+        return this.http.post(url, { token }).pipe(
+            map((response: any) => {
+                console.log(response);
+                this.saveLocalStorage(response.user._id, token, response.user);
+                return response;
+            })
+        );
     }
 
     isAuthenticated() {
@@ -75,5 +83,31 @@ export class UserService {
             this.token = '';
             this.user = null;
         }
+    }
+
+    saveLocalStorage(id: string, token: string, user: User) {
+        localStorage.setItem('id', id);
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        this.user = user;
+        this.token = token;
+    }
+
+    // http://localhost:3000/user/5e56bf0923044a6c8504c22b?token={{Token}}
+    updateUser(newUser: User) {
+        const url = `${BASE_URL}/user/${newUser._id}?token=${this.token}`;
+        return this.http.put(url, newUser).pipe(
+            map((response: any) => {
+                this.saveLocalStorage(newUser._id, this.token, newUser);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                return true;
+            })
+        );
     }
 }

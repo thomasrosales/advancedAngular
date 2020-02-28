@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
+import { PipesModule } from '../pipes/pipes.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { GraphicOneComponent } from './graphic-one/graphic-one.component';
 import { PagesComponent } from './pages.component';
 
-import { SharedModule} from './../shared/shared.module';
+import { SharedModule } from './../shared/shared.module';
 import { PAGES_ROUTES } from './pages-routing.module';
 import { AdderComponent } from '../components/adder/adder.component';
 import { GraphicDoughnutComponent } from '../components/graphic-doughnut/graphic-doughnut.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
-
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -26,13 +27,15 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         GraphicDoughnutComponent,
         AccountSettingsComponent,
         PromisesComponent,
-        RxjsComponent
+        RxjsComponent,
+        ProfileComponent
     ],
     imports: [
         PAGES_ROUTES,
         SharedModule,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ],
     exports: [
         DashboardComponent,
@@ -40,8 +43,6 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         GraphicOneComponent,
         PagesComponent
     ],
-    providers: [],
+    providers: []
 })
-export class PagesModule {
-
-}
+export class PagesModule {}

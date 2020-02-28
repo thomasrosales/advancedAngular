@@ -13,25 +13,18 @@ import { APP_ROUTES } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register/register.component';
-//import { SettingsService } from './services/settings.index';
-
-
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent
-  ],
-  imports: [
-    BrowserModule,
-    APP_ROUTES,
-    PagesModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ServicesModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent, LoginComponent, RegisterComponent],
+    imports: [
+        BrowserModule,
+        APP_ROUTES,
+        PagesModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ServicesModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

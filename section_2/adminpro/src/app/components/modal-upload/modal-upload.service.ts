@@ -6,7 +6,7 @@ import { UploadFileService } from 'src/app/services/settings.index';
     providedIn: 'root'
 })
 export class ModalUploadService {
-    collection: string;
+    collection: string = '';
     id: string;
     hide: string = 'hide-modal';
     urlImage: string;
@@ -17,7 +17,7 @@ export class ModalUploadService {
     hideModal() {
         this.hide = 'hide-modal';
         this.id = null;
-        this.collection = null;
+        this.collection = '';
         this.urlImage = null;
     }
 

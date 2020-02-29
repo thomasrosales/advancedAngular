@@ -20,6 +20,7 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
+import { HospitalsComponent } from './hospitals/hospitals.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { UsersComponent } from './users/users.component';
         RxjsComponent,
         ProfileComponent,
         UsersComponent,
-        ModalUploadComponent
+        ModalUploadComponent,
+        HospitalsComponent
     ],
     imports: [
         PAGES_ROUTES,

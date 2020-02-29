@@ -7,7 +7,6 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  * GET ALL HOSPITALS
  */
 app.get('/', (req, res, next) => {
-
     var offset = req.query.offset || 0;
     offset = Number(offset);
 
@@ -32,7 +31,45 @@ app.get('/', (req, res, next) => {
                     total: quantity
                 }); // EVERYTHING OK
             });
-        }); //GET   
+        }); //GET
+});
+
+app.get('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
+    var idHospital = req.params.id;
+
+    if (!idHospital) {
+        return res.status(400).json({
+            status: false,
+            description: 'Error getting hospital',
+            errors: err
+        });
+    }
+
+    Hospital.findById(idHospital)
+        .populate('user', 'nombre email')
+        .exec((err, persistentHospital) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error getting hospital with id: ' + idHospital,
+                    errors: err
+                });
+            }
+
+            if (!persistentHospital) {
+                return res.status(400).json({
+                    status: false,
+                    description: 'Error getting hospital with id: ' + idHospital,
+                    errors: err
+                });
+            }
+
+            res.status(200).json({
+                status: true,
+                description: '...',
+                hospital: persistentHospital
+            }); // EVERYTHING OK
+        });
 });
 
 /**
@@ -40,7 +77,6 @@ app.get('/', (req, res, next) => {
  */
 
 app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
-
     var body = req.body;
 
     var hospital = new Hospital({
@@ -50,7 +86,6 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
     });
 
     hospital.save((err, persistentHospital) => {
-
         if (err) {
             return res.status(400).json({
                 status: false,
@@ -65,7 +100,6 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
             hospital: persistentHospital,
             create_by: req.user
         }); // EVERYTHING OK
-
     });
 });
 
@@ -118,34 +152,37 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
 /**
  * DELETE HOSPITAL BY ID
  */
-app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
-    var id = req.params.id;
+app.delete(
+    '/:id',
+    middlewareAuthenticaion.tokenVerification,
+    (req, res, next) => {
+        var id = req.params.id;
 
-    Hospital.findByIdAndRemove(id, (err, deletedHospital) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error deleting hospital',
-                errors: err
-            });
-        }
+        Hospital.findByIdAndRemove(id, (err, deletedHospital) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error deleting hospital',
+                    errors: err
+                });
+            }
 
-        if (!deletedHospital) {
-            return res.status(500).json({
-                status: false,
-                description: 'Hospital: ' + id + ' does not exist.',
-                errors: { message: '...' }
-            });
-        }
+            if (!deletedHospital) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Hospital: ' + id + ' does not exist.',
+                    errors: { message: '...' }
+                });
+            }
 
-        res.status(201).json({
-            status: true,
-            description: '...',
-            hospital: deletedHospital,
-            deleted_by: req.user
-        }); // EVERYTHING OK
-
-    });
-});
+            res.status(201).json({
+                status: true,
+                description: '...',
+                hospital: deletedHospital,
+                deleted_by: req.user
+            }); // EVERYTHING OK
+        });
+    }
+);
 
 module.exports = app; //EXPORTA FUERA DE ESTE ARCHIVO

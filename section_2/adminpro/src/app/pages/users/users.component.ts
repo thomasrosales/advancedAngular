@@ -89,4 +89,18 @@ export class UsersComponent implements OnInit {
             }
         });
     }
+
+    saveUser(user: User) {
+        if (user._id === this.userService.user._id) {
+            Swal.fire({
+                icon: 'error',
+                title: 'You can not update your self priority !',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
+
+        this.userService.updateUser(user).subscribe();
+    }
 }

@@ -1,5 +1,4 @@
 import { Routes, RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -10,6 +9,7 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuard } from '../services/guards/login.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './users/users.component';
 
 const pagesRoutes: Routes = [
     {
@@ -48,6 +48,12 @@ const pagesRoutes: Routes = [
                 data: { title: 'Promise' }
             },
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RXJS' } },
+            // MANTENIMIENTO
+            {
+                path: 'users',
+                component: UsersComponent,
+                data: { title: 'Users' }
+            },
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' }
         ]
     }

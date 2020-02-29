@@ -110,4 +110,16 @@ export class UserService {
             })
         );
     }
+
+    //http://localhost:3000/user?offset=0
+    getUsers(offset: number = 0) {
+        const url = `${BASE_URL}/user?offset=${offset}`;
+        return this.http.get(url);
+    }
+
+    //http://localhost:3000/find/collection/user/tes
+    findUsers(filter: string) {
+        const url = `${BASE_URL}/find/collection/user/${filter}`;
+        return this.http.get(url);
+    }
 }

@@ -1,0 +1,79 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input #input (keyup)="findUser(input.value)" class="form-control" text="text" placeholder="Search for a user" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loadingFlag" class="row animated fadeIn">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Loading...</strong><br />
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!loadingFlag">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">
+                    Users (<small>{{ totalUsers }}</small
+                    >)
+                </h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="w70">Image</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Auth</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of users">
+                            <td>
+                                <img
+                                    [src]="user.image | imagen"
+                                    class="img-50 img-circle"
+                                />
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.nombre }}</td>
+                            <td>{{ user.rol }}</td>
+                            <td>
+                                <label
+                                    *ngIf="user.google"
+                                    class="label label-danger mr-1"
+                                    >Google</label
+                                ><label
+                                    *ngIf="!user.google"
+                                    class="label label-primary"
+                                    >Normal</label
+                                >
+                            </td>
+                            <td>
+                                <button class="btn btn-primary mr-1">
+                                    <i class="fa fa-save"></i>
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-secondary mr-1" (click)="after()">
+                    Before
+                </button>
+                <button class="btn btn-secondary" (click)="next()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>

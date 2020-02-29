@@ -8,11 +8,10 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  * GET ALL USERS
  */
 app.get('/', (req, res, next) => {
-
     var offset = req.query.offset || 0;
     offset = Number(offset);
 
-    User.find({}, 'nombre email image rol')
+    User.find({}, 'nombre email image rol google')
         .skip(offset)
         .limit(5)
         .exec((err, Users) => {
@@ -32,9 +31,7 @@ app.get('/', (req, res, next) => {
                     total: quantity
                 }); // EVERYTHING OK
             });
-
-
-        }); //GET   
+        }); //GET
 });
 
 /**
@@ -61,7 +58,6 @@ app.get('/', (req, res, next) => {
  */
 
 app.post('/', (req, res) => {
-
     var body = req.body; // BODY-PARSER PACKAGE CAPTURA Y PARSEA LOS PARAMETROS ENVIADOS POR JSON
 
     const saltRounds = 10;
@@ -90,7 +86,6 @@ app.post('/', (req, res) => {
             user: persistentUser,
             create_by: req.user
         }); // EVERYTHING OK
-
     });
 });
 
@@ -98,7 +93,6 @@ app.post('/', (req, res) => {
  * UPDATE USER
  */
 app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
-
     var id = req.params.id;
     var body = req.body; // PARAMETROS NUEVOS
 
@@ -132,7 +126,7 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
                 });
             }
 
-            persistentUser.password = "*******";
+            persistentUser.password = '*******';
 
             res.status(200).json({
                 status: true,
@@ -148,7 +142,6 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
  * DELETE USER
  */
 app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
-
     var id = req.params.id;
 
     User.findByIdAndRemove(id, (err, deletedUser) => {

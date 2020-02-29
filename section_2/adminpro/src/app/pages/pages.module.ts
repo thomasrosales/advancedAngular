@@ -4,6 +4,7 @@ import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from '../pipes/pipes.module';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -32,7 +33,8 @@ import { UsersComponent } from './users/users.component';
         PromisesComponent,
         RxjsComponent,
         ProfileComponent,
-        UsersComponent
+        UsersComponent,
+        ModalUploadComponent
     ],
     imports: [
         PAGES_ROUTES,

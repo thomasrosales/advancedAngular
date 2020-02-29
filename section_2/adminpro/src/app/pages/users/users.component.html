@@ -41,7 +41,8 @@
                             <td>
                                 <img
                                     [src]="user.image | imagen"
-                                    class="img-50 img-circle"
+                                    class="img-50 img-circle pointer"
+                                    (click)="displayModal(user)"
                                 />
                             </td>
                             <td>{{ user.email }}</td>

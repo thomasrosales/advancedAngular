@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.models';
 import { UserService } from '../../services/user/user.service';
 import Swal from 'sweetalert2';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 @Component({
     selector: 'app-users',
@@ -14,10 +15,17 @@ export class UsersComponent implements OnInit {
     totalUsers: number = 0;
     loadingFlag: boolean = false;
 
-    constructor(private userService: UserService) {}
+    constructor(
+        private userService: UserService,
+        private modalUploadService: ModalUploadService
+    ) {}
 
     ngOnInit(): void {
         this.loadingUsers();
+        // SUBSCRIBIER A CUALUQIER NOTIFICACION DEL EVENT EMMITER
+        this.modalUploadService.notification.subscribe(response => {
+            this.loadingUsers();
+        });
     }
 
     loadingUsers(offset?: number) {
@@ -88,5 +96,23 @@ export class UsersComponent implements OnInit {
                 Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
             }
         });
+    }
+
+    saveUser(user: User) {
+        if (user._id === this.userService.user._id) {
+            Swal.fire({
+                icon: 'error',
+                title: 'You can not update your self priority !',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
+
+        this.userService.updateUser(user).subscribe();
+    }
+
+    displayModal(user: User) {
+        this.modalUploadService.displayModal('users', user._id, user.image);
     }
 }

@@ -41,12 +41,24 @@
                             <td>
                                 <img
                                     [src]="user.image | imagen"
-                                    class="img-50 img-circle"
+                                    class="img-50 img-circle pointer"
+                                    (click)="displayModal(user)"
                                 />
                             </td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.nombre }}</td>
-                            <td>{{ user.rol }}</td>
+                            <td>
+                                <select
+                                    [(ngModel)]="user.rol"
+                                    name="rol"
+                                    class="form-control"
+                                >
+                                    <option value="ADMIN_ROL"
+                                        >ADMIN_ROLE</option
+                                    >
+                                    <option value="USER_ROL">USER_ROLE</option>
+                                </select>
+                            </td>
                             <td>
                                 <label
                                     *ngIf="user.google"
@@ -60,7 +72,10 @@
                             </td>
                             <td>
                                 <button class="btn btn-primary mr-1">
-                                    <i class="fa fa-save"></i>
+                                    <i
+                                        class="fa fa-save"
+                                        (click)="saveUser(user)"
+                                    ></i>
                                 </button>
                                 <button
                                     class="btn btn-danger"

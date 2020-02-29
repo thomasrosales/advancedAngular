@@ -9,6 +9,7 @@ import {
 } from './settings.index';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
+import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 
 @NgModule({
     declarations: [],
@@ -19,7 +20,8 @@ import { LoginGuard } from './guards/login.guard';
         SharedService,
         UserService,
         LoginGuard,
-        UploadFileService
+        UploadFileService,
+        ModalUploadService
     ]
 })
 export class ServicesModule {}

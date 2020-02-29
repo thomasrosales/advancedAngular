@@ -122,4 +122,10 @@ export class UserService {
         const url = `${BASE_URL}/find/collection/user/${filter}`;
         return this.http.get(url);
     }
+
+    // http://localhost:3000/user/5e56a15c0fccf646ceeaaac9?token={{Token}}
+    deleteUser(id: string) {
+        const url = `${BASE_URL}/user/${id}?token=${this.token}`;
+        return this.http.delete(url);
+    }
 }

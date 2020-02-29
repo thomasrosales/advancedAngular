@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.models';
 import { UserService } from '../../services/user/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-users',
@@ -57,5 +58,35 @@ export class UsersComponent implements OnInit {
             this.totalUsers = this.users.length;
         });
         this.loadingFlag = false;
+    }
+
+    deleteUser(user: User) {
+        //USUARIO LOGGEADO
+        if (user._id === this.userService.user._id) {
+            Swal.fire({
+                icon: 'error',
+                title: 'You can not delete your self !',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(result => {
+            if (result.value) {
+                this.userService.deleteUser(user._id).subscribe(response => {
+                    this.loadingUsers();
+                });
+                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            }
+        });
     }
 }

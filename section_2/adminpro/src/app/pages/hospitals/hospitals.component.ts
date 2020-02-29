@@ -42,8 +42,11 @@ export class HospitalsComponent implements OnInit {
 
     findHospital(filter: string) {
         this.loadingFlag = true;
+        if (filter === '') {
+            filter = 'a';
+        }
         this.hospitalService.findHospital(filter).subscribe(response => {
-            this.hospitals = response['hospital'];
+            this.hospitals = response['hospitals'];
             //this.totalUsers = this.users.length;
         });
         this.loadingFlag = false;
@@ -109,6 +112,7 @@ export class HospitalsComponent implements OnInit {
                 this.hospitalService
                     .createHospital(result.value)
                     .subscribe(response => {
+                        this.loadHospitals();
                         Swal.fire(
                             'Created!',
                             'Your file has been created.',

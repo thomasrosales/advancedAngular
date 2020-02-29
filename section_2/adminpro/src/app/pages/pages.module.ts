@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { PipesModule } from '../pipes/pipes.module';
-import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 
@@ -21,6 +20,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
 import { HospitalsComponent } from './hospitals/hospitals.component';
+import { DoctorsComponent } from './doctors/doctors.component';
+import { DoctorComponent } from './doctors/doctor.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,9 @@ import { HospitalsComponent } from './hospitals/hospitals.component';
         ProfileComponent,
         UsersComponent,
         ModalUploadComponent,
-        HospitalsComponent
+        HospitalsComponent,
+        DoctorsComponent,
+        DoctorComponent
     ],
     imports: [
         PAGES_ROUTES,

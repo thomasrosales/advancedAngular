@@ -51,7 +51,8 @@ app.post('/', (req, res) => {
             description: '...',
             user: persistentUser,
             id: persistentUser._id,
-            token: token
+            token: token,
+            menu: getMenu(persistentUser.rol)
         }); // EVERYTHING OK
     });
 });
@@ -96,17 +97,17 @@ app.post('/google', async(req, res, next) => {
                 description: '...',
                 user: persistentUser,
                 id: persistentUser._id,
-                token: token
+                token: token,
+                menu: getMenu(persistentUser.rol)
             }); // EVERYTHING OK
         } else {
             // CREAR USUARIO SI NO EXISTE
             var newUser = new User();
-            console.log(googleUser);
             newUser.nombre = googleUser.name;
             newUser.email = googleUser.email;
             newUser.image = googleUser.image;
             newUser.google = true;
-            newUser.password = '1234';
+            newUser.password = '1234:)//';
 
             newUser.save((err, persistentNewUser) => {
                 var token = jwt.sign({ user: persistentNewUser }, SECRET_KEY, {
@@ -117,7 +118,8 @@ app.post('/google', async(req, res, next) => {
                     description: '...',
                     user: persistentNewUser,
                     id: persistentNewUser._id,
-                    token: token
+                    token: token,
+                    menu: getMenu(persistentNewUser.rol)
                 }); // EVERYTHING OK
             });
         }
@@ -142,6 +144,56 @@ async function verify(token) {
         image: payload.picture,
         google: true
     };
+}
+
+function getMenu(ROL) {
+    menu = [{
+            title: 'Section 1',
+            icon: 'mdi mdi-gauge',
+            submenu: [{
+                    title: 'Dashboard',
+                    url: '/dashboard'
+                },
+                {
+                    title: 'Progress',
+                    url: '/progress'
+                },
+                {
+                    title: 'Graphic',
+                    url: '/graphic'
+                },
+                {
+                    title: 'Promise',
+                    url: '/promise'
+                },
+                {
+                    title: 'RXJS',
+                    url: '/rxjs'
+                }
+            ]
+        },
+        {
+            title: 'Section 2',
+            icon: 'mdi mdi-folder-lock-open',
+            submenu: [{
+                    title: 'Doctors',
+                    url: '/doctors'
+                },
+                {
+                    title: 'Hospitals',
+                    url: '/hospitals'
+                }
+            ]
+        }
+    ];
+
+    if (ROL === 'ADMIN_ROL') {
+        menu[1].submenu.unshift({
+            title: 'Users',
+            url: '/users'
+        });
+    }
+    return menu;
 }
 
 module.exports = app;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URLt, BASE_URL } from '../../config/config';
+import { BASE_URL } from '../../config/config';
 import { User } from '../../models/user.models';
 import { Doctor } from '../../models/doctor.models';
 import { Hospital } from 'src/app/models/hospital.models';

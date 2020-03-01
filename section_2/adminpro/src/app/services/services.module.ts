@@ -9,6 +9,7 @@ import {
 } from './settings.index';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
         SharedService,
         UserService,
         LoginGuard,
+        AdminGuard,
         UploadFileService,
         ModalUploadService
     ]

@@ -8,6 +8,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuard } from '../services/guards/login.guard';
+import { AdminGuard } from '../services/guards/admin.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
 import { HospitalsComponent } from './hospitals/hospitals.component';
@@ -61,21 +62,25 @@ const pagesRoutes: Routes = [
             {
                 path: 'users',
                 component: UsersComponent,
+                canActivate: [AdminGuard],
                 data: { title: 'Users' }
             },
             {
                 path: 'hospitals',
                 component: HospitalsComponent,
+                canActivate: [AdminGuard],
                 data: { title: 'Hospitals' }
             },
             {
                 path: 'doctors',
                 component: DoctorsComponent,
+                canActivate: [AdminGuard],
                 data: { title: 'Doctors' }
             },
             {
                 path: 'doctor/:id',
                 component: DoctorComponent,
+                canActivate: [AdminGuard],
                 data: { title: 'Update Doctor' }
             },
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' }

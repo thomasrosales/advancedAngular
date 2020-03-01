@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../config/config';
 import { map } from 'rxjs/operators';
 import { UserService } from '../user/user.service';
+import { Doctor } from 'src/app/models/doctor.models';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,40 @@ export class DoctorsService {
         return this.http.get(url).pipe(
             map((response: any) => {
                 return response.doctors;
+            })
+        );
+    }
+
+    findDoctorById(id: string) {
+        const url = `${BASE_URL}/doctor/${id}`;
+        return this.http.get(url).pipe(
+            map((response: any) => {
+                return response.doctor;
+            })
+        );
+    }
+
+    // http://localhost:3000/doctor?token={{Token}}
+    createDoctor(doctor: Doctor) {
+        if (doctor._id) {
+            return this.updateDoctor(doctor);
+        } else {
+            doctor.user = this.userService.user._id;
+            const url = `${BASE_URL}/doctor?token=${this.userService.token}`;
+            return this.http.post(url, doctor).pipe(
+                map((response: any) => {
+                    return response.doctor;
+                })
+            );
+        }
+    }
+
+    //http://localhost:3000/doctor/5e56d389e657b40a887830aa?token={{Token}}
+    updateDoctor(doctor: Doctor) {
+        const url = `${BASE_URL}/doctor/${doctor._id}?token=${this.userService.token}`;
+        return this.http.put(url, doctor).pipe(
+            map((response: any) => {
+                return response.doctor;
             })
         );
     }

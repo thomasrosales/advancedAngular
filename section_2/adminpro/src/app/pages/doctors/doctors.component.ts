@@ -36,8 +36,6 @@ export class DoctorsComponent implements OnInit {
 
     create() {}
 
-    saveDoctor(doctor: Doctor) {}
-
     deleteDoctor(doctor: Doctor) {
         Swal.fire({
             title: 'Are you sure?',

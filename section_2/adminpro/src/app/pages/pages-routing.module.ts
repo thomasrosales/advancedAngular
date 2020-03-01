@@ -13,6 +13,7 @@ import { UsersComponent } from './users/users.component';
 import { HospitalsComponent } from './hospitals/hospitals.component';
 import { DoctorsComponent } from './doctors/doctors.component';
 import { DoctorComponent } from './doctors/doctor.component';
+import { FinderComponent } from './finder/finder.component';
 
 const pagesRoutes: Routes = [
     {
@@ -51,6 +52,11 @@ const pagesRoutes: Routes = [
                 data: { title: 'Promise' }
             },
             { path: 'rxjs', component: RxjsComponent, data: { title: 'RXJS' } },
+            {
+                path: 'finder/:filter',
+                component: FinderComponent,
+                data: { title: 'Finder' }
+            },
             // MANTENIMIENTO
             {
                 path: 'users',

@@ -1,0 +1,64 @@
+<div class="row animated fadeIn">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Users</h3>
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let user of users" [routerLink]="['/users']" class="pointer">
+                        <td>
+                            <img [src]="user.image | imagen: 'users'" class="rounded img-fluid img-50" />
+                        </td>
+                        <td>{{ user.nombre }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info w-75 text-center align-self-center" role="alert" *ngIf="users.length === 0">
+                No Users ! :(
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Doctors</h3>
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let doc of doctors" [routerLink]="['/doctor', doc._id]" class="pointer">
+                        <td>
+                            <img [src]="doc.image | imagen: 'doctors'" class="rounded img-fluid" />
+                        </td>
+                        <td>{{ doc.nombre }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info w-75 text-center align-self-center" role="alert" *ngIf="doctors.length === 0">
+                No Doctors ! :(
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Hospitals</h3>
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let hos of hospitals" [routerLink]="['/hospitals']" class="pointer">
+                        <td>
+                            <img [src]="hos.image | imagen: 'hospitals'" class="rounded img-fluid" />
+                        </td>
+                        <td>{{ hos.nombre }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info w-75 text-center align-self-center" role="alert" *ngIf="hospitals.length === 0">
+                No Hospitals ! :(
+            </div>
+        </div>
+    </div>
+</div>

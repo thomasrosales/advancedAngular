@@ -22,7 +22,7 @@ exports.tokenVerification = function(req, res, next) {
 exports.adminVerification = function(req, res, next) {
     var user = req.user; // COMO EL MIDDLEWARE DE ARRIBA NO TIENE RETURN CONTINUA CON EL REQ.USER CON VALOR
 
-    if (user.role === 'ADMIN_ROL') {
+    if (user.rol === 'ADMIN_ROL') {
         next();
     } else {
         return res.status(401).json({
@@ -39,7 +39,7 @@ exports.profileVerification = function(req, res, next) {
 
     console.log(id);
 
-    if (user.role === 'ADMIN_ROL' || user._id === id) {
+    if (user.rol === 'ADMIN_ROL' || user._id === id) {
         next();
         return;
     } else {

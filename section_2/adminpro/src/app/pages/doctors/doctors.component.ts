@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../../models/doctor.models';
 import { DoctorsService } from '../../services/doctor/doctors.service';
 import Swal from 'sweetalert2';
+import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
 
 @Component({
     selector: 'app-doctors',
@@ -12,7 +13,10 @@ export class DoctorsComponent implements OnInit {
     doctors: Doctor[] = [];
     totalDoctors: number = 0;
 
-    constructor(private doctorsService: DoctorsService) {}
+    constructor(
+        private doctorsService: DoctorsService,
+        private modalUploadService: ModalUploadService
+    ) {}
 
     ngOnInit(): void {
         this.loadDoctors();
@@ -55,5 +59,13 @@ export class DoctorsComponent implements OnInit {
                 Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
             }
         });
+    }
+
+    displayModal(doctor: Doctor) {
+        this.modalUploadService.displayModal(
+            'doctors',
+            doctor._id,
+            doctor.image
+        );
     }
 }

@@ -22,6 +22,7 @@ import { UsersComponent } from './users/users.component';
 import { HospitalsComponent } from './hospitals/hospitals.component';
 import { DoctorsComponent } from './doctors/doctors.component';
 import { DoctorComponent } from './doctors/doctor.component';
+import { FinderComponent } from './finder/finder.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import { DoctorComponent } from './doctors/doctor.component';
         ModalUploadComponent,
         HospitalsComponent,
         DoctorsComponent,
-        DoctorComponent
+        DoctorComponent,
+        FinderComponent
     ],
     imports: [
         PAGES_ROUTES,

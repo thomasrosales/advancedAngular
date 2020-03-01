@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { User } from 'src/app/models/user.models';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -10,7 +11,7 @@ import { User } from 'src/app/models/user.models';
 export class HeaderComponent implements OnInit {
     user: User;
 
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private router: Router) {}
 
     ngOnInit(): void {
         this.user = this.userService.user;
@@ -18,5 +19,9 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         this.userService.logout();
+    }
+
+    find(filter: string) {
+        this.router.navigate(['/finder', filter]);
     }
 }

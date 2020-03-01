@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bcrypt = require('bcrypt');
 var User = require('../models/user');
-var middlewareAuthenticaion = require('../middlewares/authentication');
+var middlewareAuthentication = require('../middlewares/authentication');
 
 /**
  * GET ALL USERS
@@ -92,81 +92,93 @@ app.post('/', (req, res) => {
 /**
  * UPDATE USER
  */
-app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
-    var id = req.params.id;
-    var body = req.body; // PARAMETROS NUEVOS
+app.put(
+    '/:id', [
+        middlewareAuthentication.tokenVerification,
+        middlewareAuthentication.profileVerification
+    ],
+    (req, res) => {
+        var id = req.params.id;
+        var body = req.body; // PARAMETROS NUEVOS
 
-    User.findById(id, (err, user) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error getting user',
-                errors: err
-            });
-        }
-
-        if (!user) {
-            return res.status(400).json({
-                status: false,
-                description: 'User dont exist: ' + id,
-                errors: { message: '...' }
-            });
-        }
-
-        user.nombre = body.nombre;
-        user.email = body.email;
-        user.rol = body.rol;
-
-        user.save((err, persistentUser) => {
+        User.findById(id, (err, user) => {
             if (err) {
                 return res.status(500).json({
                     status: false,
-                    description: 'Error updating user',
+                    description: 'Error getting user',
                     errors: err
                 });
             }
 
-            persistentUser.password = '*******';
+            if (!user) {
+                return res.status(400).json({
+                    status: false,
+                    description: 'User dont exist: ' + id,
+                    errors: { message: '...' }
+                });
+            }
 
-            res.status(200).json({
-                status: true,
-                description: '...',
-                user: persistentUser,
-                update_by: req.user
-            }); // EVERYTHING OK
+            user.nombre = body.nombre;
+            user.email = body.email;
+            user.rol = body.rol;
+
+            user.save((err, persistentUser) => {
+                if (err) {
+                    return res.status(500).json({
+                        status: false,
+                        description: 'Error updating user',
+                        errors: err
+                    });
+                }
+
+                persistentUser.password = '*******';
+
+                res.status(200).json({
+                    status: true,
+                    description: '...',
+                    user: persistentUser,
+                    update_by: req.user
+                }); // EVERYTHING OK
+            });
         });
-    });
-});
+    }
+);
 
 /**
  * DELETE USER
  */
-app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res) => {
-    var id = req.params.id;
+app.delete(
+    '/:id', [
+        middlewareAuthentication.tokenVerification,
+        middlewareAuthentication.adminVerification
+    ],
+    (req, res) => {
+        var id = req.params.id;
 
-    User.findByIdAndRemove(id, (err, deletedUser) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error deleting user',
-                errors: err
-            });
-        }
-        if (!deletedUser) {
-            return res.status(500).json({
-                status: false,
-                description: 'User: ' + id + ' does not exist.',
-                errors: { message: '...' }
-            });
-        }
+        User.findByIdAndRemove(id, (err, deletedUser) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error deleting user',
+                    errors: err
+                });
+            }
+            if (!deletedUser) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'User: ' + id + ' does not exist.',
+                    errors: { message: '...' }
+                });
+            }
 
-        res.status(200).json({
-            status: true,
-            description: '...',
-            user: deletedUser,
-            delete_by: req.user
-        }); // EVERYTHING OK
-    });
-});
+            res.status(200).json({
+                status: true,
+                description: '...',
+                user: deletedUser,
+                delete_by: req.user
+            }); // EVERYTHING OK
+        });
+    }
+);
 
 module.exports = app; //EXPORTA FUERA DE ESTE ARCHIVO

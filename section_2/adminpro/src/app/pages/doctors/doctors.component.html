@@ -45,6 +45,7 @@
                                 <img
                                     class="img-50 img-circle pointer"
                                     [src]="doc.image | imagen: 'doctors'"
+                                    (click)="displayModal(doc)"
                                 />
                             </td>
                             <td>{{ doc.nombre }}</td>

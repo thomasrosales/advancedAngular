@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {
-    UploadFileService,
-    UserService
-} from 'src/app/services/settings.index';
-import { User } from 'src/app/models/user.models';
 import Swal from 'sweetalert2';
 import { ModalUploadService } from './modal-upload.service';
 
@@ -15,13 +10,11 @@ import { ModalUploadService } from './modal-upload.service';
 export class ModalUploadComponent implements OnInit {
     fileData: File = null;
 
-    constructor(
-        private userService: UserService,
-        private uploadFile: UploadFileService,
-        private modalUploadService: ModalUploadService
-    ) {}
+    constructor(private modalUploadService: ModalUploadService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        console.log('hola');
+    }
 
     getModalDisplay(): string {
         return this.modalUploadService.hide;

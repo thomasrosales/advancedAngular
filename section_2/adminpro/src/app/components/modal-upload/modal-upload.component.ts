@@ -31,12 +31,15 @@ export class ModalUploadComponent implements OnInit {
         return this.modalUploadService.urlImage;
     }
 
+    getCollection() {
+        return this.modalUploadService.collection || '';
+    }
+
     fileProgress(fileInput: any) {
         this.fileData = <File>fileInput.target.files[0];
     }
 
     uploadImage() {
-        console.log('holis');
         if (!this.fileData) {
             Swal.fire({
                 icon: 'error',

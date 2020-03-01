@@ -7,7 +7,6 @@ var middlewareAuthenticaion = require('../middlewares/authentication');
  * GET ALL HOSPITALS
  */
 app.get('/', (req, res, next) => {
-
     var offset = req.query.offset || 0;
     offset = Number(offset);
 
@@ -33,9 +32,46 @@ app.get('/', (req, res, next) => {
                     total: quantity
                 }); // EVERYTHING OK
             });
+        }); //GET
+});
 
+app.get('/:id', (req, res, next) => {
+    var id = req.params.id;
 
-        }); //GET   
+    if (!id || id === '') {
+        return res.status(400).json({
+            status: false,
+            description: 'Id should not be empty.',
+            errors: { messages: '' }
+        });
+    }
+
+    Doctor.findById(id)
+        .populate('user', 'nombre email')
+        .populate('hospital')
+        .exec((err, persistentDoctor) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error loading doctors.',
+                    errors: err
+                });
+            }
+
+            if (!persistentDoctor) {
+                return res.status(400).json({
+                    status: false,
+                    description: 'Doctor with id: ' + id + ' does not exist.',
+                    errors: { messages: '' }
+                });
+            }
+
+            res.status(200).json({
+                status: true,
+                description: '...',
+                doctor: persistentDoctor
+            }); // EVERYTHING OK
+        }); //GET
 });
 
 /**
@@ -43,7 +79,6 @@ app.get('/', (req, res, next) => {
  */
 
 app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
-
     var body = req.body;
 
     var doctor = new Doctor({
@@ -54,7 +89,6 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
     });
 
     doctor.save((err, persistentDoctor) => {
-
         if (err) {
             return res.status(400).json({
                 status: false,
@@ -69,7 +103,6 @@ app.post('/', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
             doctor: persistentDoctor,
             create_by: req.user
         }); // EVERYTHING OK
-
     });
 });
 
@@ -123,34 +156,37 @@ app.put('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
 /**
  * DELETE Docotr BY ID
  */
-app.delete('/:id', middlewareAuthenticaion.tokenVerification, (req, res, next) => {
-    var id = req.params.id;
+app.delete(
+    '/:id',
+    middlewareAuthenticaion.tokenVerification,
+    (req, res, next) => {
+        var id = req.params.id;
 
-    Doctor.findByIdAndRemove(id, (err, deletedDoctor) => {
-        if (err) {
-            return res.status(500).json({
-                status: false,
-                description: 'Error deleting doctor',
-                errors: err
-            });
-        }
+        Doctor.findByIdAndRemove(id, (err, deletedDoctor) => {
+            if (err) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Error deleting doctor',
+                    errors: err
+                });
+            }
 
-        if (!deletedDoctor) {
-            return res.status(500).json({
-                status: false,
-                description: 'Doctor: ' + id + ' does not exist.',
-                errors: { message: '...' }
-            });
-        }
+            if (!deletedDoctor) {
+                return res.status(500).json({
+                    status: false,
+                    description: 'Doctor: ' + id + ' does not exist.',
+                    errors: { message: '...' }
+                });
+            }
 
-        res.status(201).json({
-            status: true,
-            description: '...',
-            doctor: deletedDoctor,
-            deleted_by: req.user
-        }); // EVERYTHING OK
-
-    });
-});
+            res.status(201).json({
+                status: true,
+                description: '...',
+                doctor: deletedDoctor,
+                deleted_by: req.user
+            }); // EVERYTHING OK
+        });
+    }
+);
 
 module.exports = app; //EXPORTA FUERA DE ESTE ARCHIVO

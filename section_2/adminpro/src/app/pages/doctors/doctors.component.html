@@ -1,0 +1,72 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input #input (keyup)="findDoctor(input.value)" class="form-control" text="text" placeholder="Search for a user" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row animated fadeIn">
+                    <div class="col-8">
+                        <h3 class="card-title">
+                            Hospitals (<small>{{ totalDoctors }}</small
+                            >)
+                        </h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            [routerLink]="['/doctor', 'new']"
+                        >
+                            <i class="mdi mdi-plus"></i>
+                            New Doctor
+                        </button>
+                    </div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="w70"></th>
+                            <th>Name</th>
+                            <th>Hospital</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let doc of doctors">
+                            <td>
+                                <img
+                                    class="img-50 img-circle pointer"
+                                    [src]="doc.image | imagen: 'doctors'"
+                                />
+                            </td>
+                            <td>{{ doc.nombre }}</td>
+                            <td>{{ doc.hospital }}</td>
+                            <td>
+                                <button class="btn btn-primary mr-1">
+                                    <i
+                                        class="fa fa-save"
+                                        [routerLink]="['/doctor', doc._id]"
+                                    ></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger"
+                                    (click)="deleteDoctor(doc)"
+                                >
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

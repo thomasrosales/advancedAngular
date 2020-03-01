@@ -1,0 +1,97 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input #input (keyup)="findHospital(input.value)" class="form-control" text="text" placeholder="Search for a user" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loadingFlag" class="row animated fadeIn">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Loading...</strong><br />
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!loadingFlag">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row animated fadeIn">
+                    <div class="col-8">
+                        <h3 class="card-title">
+                            Hospitals (<small>{{ totalHospital }}</small
+                            >)
+                        </h3>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            (click)="create()"
+                        >
+                            <i class="mdi mdi-plus"></i>
+                            New Hospital
+                        </button>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="w70">Image</th>
+                            <th>Name</th>
+                            <th>User</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let hospital of hospitals">
+                            <td>
+                                <img
+                                    [src]="hospital.image | imagen: 'hospitals'"
+                                    class="img-50 img-circle pointer"
+                                    (click)="displayModal(hospital)"
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    #newName
+                                    name="name"
+                                    class="form-control"
+                                    [(ngModel)]="hospital.nombre"
+                                />
+                            </td>
+                            <td>
+                                {{ hospital.user.nombre }} |
+                                {{ hospital.user.email }}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary mr-1">
+                                    <i
+                                        class="fa fa-save"
+                                        (click)="saveHospital(hospital)"
+                                    ></i>
+                                </button>
+                                <button
+                                    class="btn btn-danger"
+                                    (click)="deleteHospital(hospital)"
+                                >
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <button class="btn btn-secondary mr-1" (click)="after()">
+                    Before
+                </button>
+                <button class="btn btn-secondary" (click)="next()">Next</button>
+            --></div>
+        </div>
+    </div>
+</div>
